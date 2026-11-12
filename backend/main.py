@@ -58,12 +58,35 @@ class Booking(Base):
 @asynccontextmanager
 async def lifespan(app):
     Base.metadata.create_all(engine)
+
     with SessionLocal.begin() as db:
         if engine.dialect.name == "postgresql":
             db.execute(text("SELECT pg_advisory_xact_lock(7349281)"))
+
+        # Создаём автомобили, если база пустая
         if not db.scalar(select(Car.id).limit(1)):
-            for name, price in [("Toyota Camry",15000),("Hyundai Elantra",12000),("Kia K5",17000),("BMW 520i",25000)]:
+            for name, price in [
+                ("Toyota Camry", 15000),
+                ("Hyundai Elantra", 12000),
+                ("Kia K5", 17000),
+                ("BMW 520i", 25000)
+            ]:
                 db.add(Car(name=name, price=price))
+
+            db.flush()
+
+        # Устанавливаем правильные фотографии
+        images = {
+            "Toyota Camry": "/cars/camry.jpg",
+            "Hyundai Elantra": "/cars/elantra.jpg",
+            "Kia K5": "/cars/k5.jpg",
+            "BMW 520i": "/cars/bmw520i.jpg"
+        }
+
+        for car in db.scalars(select(Car)).all():
+            if car.name in images:
+                car.image = images[car.name]
+
     yield
 
 app = FastAPI(title="DriveGo API", lifespan=lifespan)
