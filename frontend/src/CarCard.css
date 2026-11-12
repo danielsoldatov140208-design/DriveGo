@@ -1,0 +1,17 @@
+.car-card{
+    background: #242424;
+    padding: 25px;
+    border-radius: 12px;
+    width: 220px;
+    border: 1px solid #444;
+    transition: border-color 0.3s;
+}
+.car-card:hover{
+    border: 1px solid white
+}
+.car-card img{
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 14px;
+}

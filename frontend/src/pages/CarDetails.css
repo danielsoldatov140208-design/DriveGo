@@ -1,0 +1,19 @@
+.cardetails{
+    display: flex;
+    gap: 30px;
+    margin: 20px auto;
+    justify-content: center;
+    background: rgb(163, 145, 145);
+    padding: 10px;
+    align-items: center;
+    max-width: 900px;
+    border-radius: 10px;
+}
+.cardetails p{
+    color: white;
+}
+.cardetails img{
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+}
